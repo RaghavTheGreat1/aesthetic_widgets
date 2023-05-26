@@ -28,6 +28,14 @@ class _AestheticCheckboxTileState extends State<AestheticCheckboxTile> {
   }
 
   @override
+  void didUpdateWidget(covariant AestheticCheckboxTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.value != widget.value) {
+      valueNotifier.value = widget.value;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
