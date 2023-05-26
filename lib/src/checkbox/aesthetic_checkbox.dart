@@ -48,12 +48,14 @@ class _AestheticCheckboxState extends State<AestheticCheckbox> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return IconButton(
-      onPressed: () {
-        if (widget.value != null) {
-          valueNotifier.value = !valueNotifier.value!;
-        }
-        widget.onChanged?.call(valueNotifier.value);
-      },
+      onPressed: widget.onChanged == null
+          ? null
+          : () {
+              if (widget.value != null) {
+                valueNotifier.value = !valueNotifier.value!;
+              }
+              widget.onChanged?.call(valueNotifier.value);
+            },
       icon: Container(
         height: 24,
         width: 24,

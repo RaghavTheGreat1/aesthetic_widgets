@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'aesthetic_checkbox.dart';
 
+export 'aesthetic_checkbox.dart';
+
 class AestheticCheckboxTile extends StatefulWidget {
   const AestheticCheckboxTile({
     super.key,
@@ -38,12 +40,14 @@ class _AestheticCheckboxTileState extends State<AestheticCheckboxTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        if (widget.value != null) {
-          valueNotifier.value = !valueNotifier.value!;
-        }
-        widget.onChanged?.call(valueNotifier.value);
-      },
+      onTap: widget.onChanged == null
+          ? null
+          : () {
+              if (widget.value != null) {
+                valueNotifier.value = !valueNotifier.value!;
+              }
+              widget.onChanged?.call(valueNotifier.value);
+            },
       child: Row(
         children: [
           ValueListenableBuilder(
