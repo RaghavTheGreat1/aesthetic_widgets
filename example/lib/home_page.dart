@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: 'Date Picker',
             child: AestheticDatePicker(
               initialDate: DateTime.now(),
-              onSelected: (DateTime selectedDate) {
+              onChanged: (DateTime selectedDate) {
                 debugPrint(selectedDate.toString());
               },
             ),

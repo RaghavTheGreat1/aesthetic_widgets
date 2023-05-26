@@ -8,32 +8,59 @@ class AestheticDatePicker extends StatefulWidget {
   const AestheticDatePicker({
     Key? key,
     required this.initialDate,
-    required this.onSelected,
+    this.firstDate,
+    this.lastDate,
+    this.onChanged,
+    this.backgroundColor,
+    this.borderSide,
   }) : super(key: key);
 
   /// Initial date that should be displayed.
   final DateTime initialDate;
+  final DateTime? firstDate;
+  final DateTime? lastDate;
 
   /// [DateTime] callback that provides the [DateTime] selected by the user.
-  final void Function(DateTime selectedDate) onSelected;
+  final void Function(DateTime selectedDate)? onChanged;
+
+  final Color? backgroundColor;
+  final BorderSide? borderSide;
 
   @override
   State<AestheticDatePicker> createState() => _AestheticDatePickerState();
 }
 
 class _AestheticDatePickerState extends State<AestheticDatePicker> {
-  late DateTime selectedDateFromPicker;
+  late final ValueNotifier<DateTime> selectedDateFromPicker;
 
   @override
   void initState() {
     super.initState();
-    selectedDateFromPicker = widget.initialDate;
+    selectedDateFromPicker = ValueNotifier(DateTime(
+      widget.initialDate.year,
+      widget.initialDate.month,
+      widget.initialDate.day,
+    ));
+  }
+
+  @override
+  void didUpdateWidget(covariant AestheticDatePicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialDate != widget.initialDate) {
+      selectedDateFromPicker.value = DateTime(
+        widget.initialDate.year,
+        widget.initialDate.month,
+        widget.initialDate.day,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return InputChip(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: widget.backgroundColor ??
+          Theme.of(context).colorScheme.primaryContainer,
+      side: widget.borderSide ?? BorderSide.none,
       label: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -45,20 +72,27 @@ class _AestheticDatePickerState extends State<AestheticDatePicker> {
           const SizedBox(
             width: 4,
           ),
-          Text(
-            DateFormat.yMMMMd('en_US').format(selectedDateFromPicker),
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-          ),
+          ValueListenableBuilder(
+              valueListenable: selectedDateFromPicker,
+              builder: (context, date, _) {
+                return Text(
+                  DateFormat.yMMMMd('en_US').format(date),
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                );
+              }),
         ],
       ),
       onPressed: () async {
         DateTime? selectedDate = await showDatePicker(
           context: context,
-          initialDate: selectedDateFromPicker,
-          firstDate: DateTime.now().subtract(const Duration(days: 365 * 200)),
-          lastDate: DateTime.now().add(const Duration(days: 365 * 200)),
+          initialDate: selectedDateFromPicker.value,
+          firstDate: widget.firstDate ??
+              selectedDateFromPicker.value
+                  .subtract(const Duration(days: 365 * 200)),
+          lastDate: widget.lastDate ??
+              selectedDateFromPicker.value.add(const Duration(days: 365 * 200)),
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
@@ -72,11 +106,12 @@ class _AestheticDatePickerState extends State<AestheticDatePicker> {
             );
           },
         );
-        setState(() {
-          // Updates the display formatted datetime text when triggered.
-          selectedDateFromPicker = selectedDate ?? selectedDateFromPicker;
-        });
-        widget.onSelected(selectedDateFromPicker);
+
+        // Updates the display formatted datetime text when triggered.
+        selectedDateFromPicker.value =
+            selectedDate ?? selectedDateFromPicker.value;
+        print(selectedDateFromPicker.value);
+        widget.onChanged?.call(selectedDateFromPicker.value);
       },
     );
   }

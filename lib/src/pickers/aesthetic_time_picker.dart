@@ -22,7 +22,7 @@ class AestheticTimePicker extends StatefulWidget {
 }
 
 class _AestheticTimePickerState extends State<AestheticTimePicker> {
-  late ValueNotifier<TimeOfDay> selectedTime;
+  late final ValueNotifier<TimeOfDay> selectedTime;
 
   @override
   void initState() {
