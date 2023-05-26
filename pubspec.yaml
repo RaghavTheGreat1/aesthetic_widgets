@@ -12,8 +12,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  google_fonts: ^4.0.5
-  hooks_riverpod: ^2.3.6
+  hooks_riverpod:
   intl: ^0.18.0
   rxdart: ^0.27.7
   unicons: ^2.1.1
