@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             title: 'Time Picker',
             child: AestheticTimePicker(
               initialTime: TimeOfDay.now(),
-              onSelected: (TimeOfDay selectedTime) {
+              onChanged: (TimeOfDay selectedTime) {
                 debugPrint(selectedTime.toString());
               },
             ),
