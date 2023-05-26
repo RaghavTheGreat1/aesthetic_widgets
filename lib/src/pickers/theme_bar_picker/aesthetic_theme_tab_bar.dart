@@ -6,20 +6,33 @@ class AestheticThemeTabBarPicker extends StatefulWidget {
     Key? key,
     required this.initialThemeMode,
     required this.onChanged,
+    this.containerBorder,
+    this.indicatorBorder,
+    this.containerBorderRadius,
+    this.indicatorBorderRadius,
   }) : super(key: key);
 
   final ThemeMode initialThemeMode;
 
   final void Function(ThemeMode selectedThemeMode) onChanged;
 
+  final Border? containerBorder;
+  final Border? indicatorBorder;
+
+  final BorderRadiusGeometry? containerBorderRadius;
+  final BorderRadiusGeometry? indicatorBorderRadius;
+
   @override
-  State<AestheticThemeTabBarPicker> createState() => _AestheticThemeTabBarPickerState();
+  State<AestheticThemeTabBarPicker> createState() =>
+      _AestheticThemeTabBarPickerState();
 }
 
 class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
     with TickerProviderStateMixin {
   late ThemeMode currentThemeMode;
   late TabController controller;
+
+  final borderRadius = BorderRadius.circular(12);
 
   @override
   void initState() {
@@ -32,6 +45,15 @@ class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
       animationDuration: const Duration(milliseconds: 800),
       vsync: this,
     );
+  }
+
+  @override
+  void didUpdateWidget(covariant AestheticThemeTabBarPicker oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.initialThemeMode != widget.initialThemeMode) {
+      controller.animateTo(widget.initialThemeMode.index);
+    }
   }
 
   @override
@@ -55,46 +77,45 @@ class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
             Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.background,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.onBackground,
-                ),
+                borderRadius: widget.containerBorderRadius ?? borderRadius,
+                border: widget.containerBorder,
               ),
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: controller,
-                    onTap: (int index) {
-                      currentThemeMode = ThemeMode.values[index];
+              child: TabBar(
+                splashBorderRadius: borderRadius,
+                dividerColor: Colors.transparent,
+                indicatorWeight: 0,
+                controller: controller,
+                indicatorSize: TabBarIndicatorSize.tab,
+                onTap: (int index) {
+                  currentThemeMode = ThemeMode.values[index];
 
-                      controller.animateTo(
-                        index,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.ease,
-                      );
-                      widget.onChanged(ThemeMode.values[index]);
-                    },
-                    indicator: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    tabs: [
-                      _CustomTab(
-                        label: 'Device',
-                        icon: UniconsLine.mobile_android,
-                        isSelected: currentThemeMode == ThemeMode.system,
-                      ),
-                      _CustomTab(
-                        label: 'Light',
-                        icon: UniconsLine.sun,
-                        isSelected: currentThemeMode == ThemeMode.light,
-                      ),
-                      _CustomTab(
-                        label: 'Dark',
-                        icon: UniconsLine.moon,
-                        isSelected: currentThemeMode == ThemeMode.dark,
-                      ),
-                    ],
+                  controller.animateTo(
+                    index,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.ease,
+                  );
+                  widget.onChanged(ThemeMode.values[index]);
+                },
+                indicator: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  border: widget.indicatorBorder,
+                  borderRadius: widget.indicatorBorderRadius ?? borderRadius,
+                ),
+                tabs: [
+                  _CustomTab(
+                    label: 'Device',
+                    icon: UniconsLine.mobile_android,
+                    isSelected: currentThemeMode == ThemeMode.system,
+                  ),
+                  _CustomTab(
+                    label: 'Light',
+                    icon: Icons.light_mode_outlined,
+                    isSelected: currentThemeMode == ThemeMode.light,
+                  ),
+                  _CustomTab(
+                    label: 'Dark',
+                    icon: Icons.dark_mode_outlined,
+                    isSelected: currentThemeMode == ThemeMode.dark,
                   ),
                 ],
               ),
@@ -119,6 +140,7 @@ class _CustomTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Tab(
       icon: Row(
         mainAxisSize: MainAxisSize.min,
@@ -127,19 +149,19 @@ class _CustomTab extends StatelessWidget {
             icon,
             size: 18,
             color: isSelected
-                ? Theme.of(context).colorScheme.onSecondaryContainer
-                : Theme.of(context).colorScheme.onBackground,
+                ? theme.colorScheme.onSecondaryContainer
+                : theme.colorScheme.onBackground,
           ),
           const SizedBox(
-            width: 1,
+            width: 4,
           ),
           Text(
             label,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: isSelected
-                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                      : Theme.of(context).colorScheme.onBackground,
-                ),
+            style: theme.textTheme.bodyMedium!.copyWith(
+              color: isSelected
+                  ? theme.colorScheme.onSecondaryContainer
+                  : theme.colorScheme.onBackground,
+            ),
           ),
         ],
       ),

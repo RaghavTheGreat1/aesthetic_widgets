@@ -38,6 +38,12 @@ class _AestheticCheckboxTileState extends State<AestheticCheckboxTile> {
   }
 
   @override
+  void dispose() {
+    valueNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: widget.onChanged == null

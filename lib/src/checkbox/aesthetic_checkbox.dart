@@ -45,6 +45,12 @@ class _AestheticCheckboxState extends State<AestheticCheckbox> {
   }
 
   @override
+  void dispose() {
+    valueNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return IconButton(
