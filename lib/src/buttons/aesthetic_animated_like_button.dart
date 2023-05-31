@@ -5,7 +5,7 @@ class AestheticAnimatedLikeButton extends StatefulWidget {
     super.key,
     this.iconSize,
     this.fillColor = Colors.red,
-    this.borderColor = Colors.black,
+    this.borderColor,
     required this.onChanged,
     this.hoverColor,
     this.highlightColor,
@@ -70,7 +70,7 @@ class _AestheticAnimatedLikeButtonState
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final fillColor = (widget.fillColor ?? theme.colorScheme.primary);
-    final borderColor = (widget.borderColor ?? fillColor);
+    final borderColor = (widget.borderColor ?? theme.colorScheme.onBackground);
     final splashColor = (isLiked ? fillColor : borderColor);
     return IconButton(
       highlightColor: widget.highlightColor ?? splashColor.withOpacity(0.2),

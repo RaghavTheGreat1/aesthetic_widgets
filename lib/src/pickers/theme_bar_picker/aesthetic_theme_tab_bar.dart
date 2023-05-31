@@ -64,6 +64,7 @@ class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Padding(
@@ -76,7 +77,7 @@ class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
             ),
             Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.background,
+                color: theme.colorScheme.background,
                 borderRadius: widget.containerBorderRadius ?? borderRadius,
                 border: widget.containerBorder,
               ),
@@ -97,7 +98,7 @@ class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
                   widget.onChanged(ThemeMode.values[index]);
                 },
                 indicator: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
+                  color: theme.colorScheme.primaryContainer,
                   border: widget.indicatorBorder,
                   borderRadius: widget.indicatorBorderRadius ?? borderRadius,
                 ),
@@ -149,7 +150,7 @@ class _CustomTab extends StatelessWidget {
             icon,
             size: 18,
             color: isSelected
-                ? theme.colorScheme.onSecondaryContainer
+                ? theme.colorScheme.onPrimaryContainer
                 : theme.colorScheme.onBackground,
           ),
           const SizedBox(
@@ -159,7 +160,7 @@ class _CustomTab extends StatelessWidget {
             label,
             style: theme.textTheme.bodyMedium!.copyWith(
               color: isSelected
-                  ? theme.colorScheme.onSecondaryContainer
+                  ? theme.colorScheme.onPrimaryContainer
                   : theme.colorScheme.onBackground,
             ),
           ),

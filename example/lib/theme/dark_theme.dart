@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-ThemeData lightTheme(ColorScheme? dynamicColorScheme) {
+ThemeData darkTheme(ColorScheme? dynamicColorScheme) {
   final colorScheme = dynamicColorScheme ??
       ColorScheme.fromSeed(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         seedColor: Colors.black,
       );
-
   return ThemeData(
     useMaterial3: true,
     colorScheme: colorScheme,

@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
   hooks_riverpod:
   intl: ^0.18.0
-  rxdart: ^0.27.7
+  rxdart: 
   unicons: ^2.1.1
 
 dev_dependencies:

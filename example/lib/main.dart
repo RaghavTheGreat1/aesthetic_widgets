@@ -1,24 +1,41 @@
+import 'package:dynamic_color/dynamic_color.dart';
+import 'package:example/theme/dark_theme.dart';
+import 'package:example/theme/light_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'home_page.dart';
-import 'theme/light_theme.dart';
+import 'home_screen.dart';
+import 'providers/app_preferences_provider.dart';
+import 'service/app_initializer_service.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final appInitializerService = AppInitializerService();
+  await appInitializerService.init();
+  runApp(
+    ProviderScope(
+      overrides: appInitializerService.overrides,
+      child: const MyAestheticWidgetsGalleryApp(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyAestheticWidgetsGalleryApp extends HookConsumerWidget {
+  const MyAestheticWidgetsGalleryApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: lightTheme(),
-      home: const MyHomePage(
-        title: 'Widget',
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appPreferences = ref.watch(appPreferencesProvider);
+    return DynamicColorBuilder(
+      builder: (light, dark) {
+        return MaterialApp(
+          title: 'Aesthetic Widget Gallery',
+          themeMode: appPreferences.themeMode,
+          theme: lightTheme(light),
+          darkTheme: darkTheme(dark),
+          home: const HomeScreen(),
+        );
+      },
     );
   }
 }

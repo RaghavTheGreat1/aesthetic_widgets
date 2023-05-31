@@ -57,9 +57,10 @@ class _AestheticDatePickerState extends State<AestheticDatePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InputChip(
       backgroundColor: widget.backgroundColor ??
-          Theme.of(context).colorScheme.primaryContainer,
+          theme.colorScheme.primaryContainer,
       side: widget.borderSide ?? BorderSide.none,
       label: Row(
         mainAxisSize: MainAxisSize.min,
@@ -67,7 +68,7 @@ class _AestheticDatePickerState extends State<AestheticDatePicker> {
           Icon(
             UniconsLine.calendar_alt,
             size: 16,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: theme.colorScheme.onPrimaryContainer,
           ),
           const SizedBox(
             width: 4,
@@ -77,8 +78,8 @@ class _AestheticDatePickerState extends State<AestheticDatePicker> {
               builder: (context, date, _) {
                 return Text(
                   DateFormat.yMMMMd('en_US').format(date),
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  style: theme.textTheme.labelLarge!.copyWith(
+                        color: theme.colorScheme.onPrimaryContainer,
                       ),
                 );
               }),
@@ -95,7 +96,7 @@ class _AestheticDatePickerState extends State<AestheticDatePicker> {
               selectedDateFromPicker.value.add(const Duration(days: 365 * 200)),
           builder: (context, child) {
             return Theme(
-              data: Theme.of(context).copyWith(
+              data: theme.copyWith(
                 dialogTheme: DialogTheme(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(27),

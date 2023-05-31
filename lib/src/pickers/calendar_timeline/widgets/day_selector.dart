@@ -119,7 +119,7 @@ class _DaySelectorState extends ConsumerState<DaySelector> {
                                   style: theme.textTheme.headlineMedium
                                       ?.copyWith(
                                           color: day == currentDay
-                                              ? Colors.white
+                                              ? theme.colorScheme.onPrimary
                                               : theme.colorScheme.primary),
                                 ),
                                 if (widget.spots == null)
@@ -154,7 +154,8 @@ class _DaySelectorState extends ConsumerState<DaySelector> {
                                               child: CircleAvatar(
                                                 radius: 2,
                                                 backgroundColor: isSelected
-                                                    ? Colors.white
+                                                    ? theme
+                                                        .colorScheme.onPrimary
                                                     : theme.colorScheme.primary,
                                               ),
                                             ),

@@ -1,26 +1,25 @@
 import 'package:aesthetic_widgets/aesthetic_widgets.dart';
+import 'package:example/providers/app_preferences_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'widget_displayer.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
+class HomeScreen extends StatefulHookConsumerWidget {
+  const HomeScreen({
     super.key,
-    required this.title,
   });
 
-  final String title;
-
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Aesthetic Widget Gallery"),
       ),
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -29,8 +28,10 @@ class _MyHomePageState extends State<MyHomePage> {
             title: 'Theme Selector',
             child: AestheticThemeTabBarPicker(
               initialThemeMode: ThemeMode.system,
-              onChanged: (ThemeMode selectedThemeMode) {
-                debugPrint(selectedThemeMode.name);
+              onChanged: (ThemeMode selectedThemeMode) async {
+                await ref
+                    .read(appPreferencesProvider.notifier)
+                    .updateThemeMode(selectedThemeMode);
               },
             ),
           ),

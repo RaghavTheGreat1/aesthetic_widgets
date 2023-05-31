@@ -11,12 +11,20 @@ class AestheticRatingsPicker extends StatefulWidget {
     required this.initialIndex,
     required this.ratingTheme,
     required this.onRatingChanged,
+    this.fillColor,
+    this.borderColor,
   });
 
   final int count;
   final int initialIndex;
   final ValueChanged<int> onRatingChanged;
   final RatingTheme ratingTheme;
+
+  /// The fill color of the icon when it's liked. Defaults to [ColorScheme.primary]
+  final Color? fillColor;
+
+  /// The border color of the icon when it's not liked. Defaults to [ColorScheme.primary]
+  final Color? borderColor;
 
   @override
   State<AestheticRatingsPicker> createState() => _AestheticRatingsPickerState();
@@ -34,6 +42,8 @@ class _AestheticRatingsPickerState extends State<AestheticRatingsPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -66,12 +76,20 @@ class RatingIcon extends StatefulWidget {
     required this.isLiked,
     required this.onTap,
     required this.ratingTheme,
+    this.fillColor,
+    this.borderColor,
   }) : super(key: key);
 
   final int index;
   final bool isLiked;
   final RatingTheme ratingTheme;
   final ValueChanged<int> onTap;
+
+  /// The fill color of the icon when it's liked. Defaults to [ColorScheme.primary]
+  final Color? fillColor;
+
+  /// The border color of the icon when it's not liked. Defaults to [ColorScheme.primary]
+  final Color? borderColor;
 
   @override
   State<RatingIcon> createState() => _RatingIconState();
@@ -116,12 +134,17 @@ class _RatingIconState extends State<RatingIcon> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final fillColor = (widget.fillColor ?? theme.colorScheme.primary);
+    final borderColor = (widget.borderColor ?? theme.colorScheme.onBackground);
+    final splashColor = (isLiked ? fillColor : borderColor);
     return SizedBox.square(
-      dimension: widget.ratingTheme.size + 4,
+      dimension: widget.ratingTheme.size + 16,
       child: ScaleTransition(
         scale: scale,
-        child: GestureDetector(
-          onTap: () {
+        child: IconButton(
+          splashColor: splashColor,
+          onPressed: () {
             setState(() {
               isLiked = !isLiked;
             });
@@ -132,12 +155,12 @@ class _RatingIconState extends State<RatingIcon> with TickerProviderStateMixin {
             }
             widget.onTap(widget.index);
           },
-          child: Icon(
+          icon: Icon(
             widget.isLiked
                 ? Icons.favorite_rounded
                 : Icons.favorite_outline_rounded,
-            color: widget.ratingTheme.color,
             size: widget.ratingTheme.size,
+            color: fillColor,
           ),
         ),
       ),
