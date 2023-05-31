@@ -107,10 +107,6 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
     var header = buildHeader(theme, locale);
     var pager = buildPager(theme, locale);
     var content = Material(
-      borderRadius: const BorderRadius.only(
-        bottomLeft: Radius.circular(27),
-        bottomRight: Radius.circular(27),
-      ),
       color: theme.cardTheme.color,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -118,26 +114,32 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
       ),
     );
     return Theme(
-      data:
-          Theme.of(context).copyWith(dialogBackgroundColor: Colors.transparent),
+      data: Theme.of(context)
+          .copyWith(dialogBackgroundColor: Colors.transparent),
       child: Dialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Builder(builder: (context) {
-              if (MediaQuery.of(context).orientation == Orientation.portrait) {
-                return IntrinsicWidth(
-                  child: Column(children: [header, content]),
-                );
-              }
-              return IntrinsicHeight(
-                child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [header, content]),
-              );
-            }),
-          ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(27.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Builder(
+                builder: (context) {
+                  if (MediaQuery.of(context).orientation ==
+                      Orientation.portrait) {
+                    return IntrinsicWidth(
+                      child: Column(children: [header, content]),
+                    );
+                  }
+                  return IntrinsicHeight(
+                    child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [header, content]),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -172,10 +174,6 @@ class _MonthPickerDialogState extends State<_MonthPickerDialog> {
 
   Widget buildHeader(ThemeData theme, String locale) {
     return Material(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(27),
-        topRight: Radius.circular(27),
-      ),
       color: theme.scaffoldBackgroundColor,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

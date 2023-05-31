@@ -11,6 +11,8 @@ class AestheticMonthYearPicker extends StatefulWidget {
     Key? key,
     required this.initialMonthYear,
     required this.onSelected,
+    this.backgroundColor,
+    this.borderSide,
   }) : super(key: key);
 
   /// Initial month & year that needs to be displayed.
@@ -19,8 +21,12 @@ class AestheticMonthYearPicker extends StatefulWidget {
   /// [DateTime] callback that provides the [DateTime] selected by the user.
   final void Function(DateTime selectedDate) onSelected;
 
+  final Color? backgroundColor;
+  final BorderSide? borderSide;
+
   @override
-  State<AestheticMonthYearPicker> createState() => _AestheticMonthYearPickerState();
+  State<AestheticMonthYearPicker> createState() =>
+      _AestheticMonthYearPickerState();
 }
 
 class _AestheticMonthYearPickerState extends State<AestheticMonthYearPicker> {
@@ -34,23 +40,25 @@ class _AestheticMonthYearPickerState extends State<AestheticMonthYearPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return InputChip(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: theme.colorScheme.primaryContainer,
+      side: widget.borderSide ?? BorderSide.none,
       label: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             UniconsLine.calendar_alt,
             size: 16,
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
+            color: theme.colorScheme.onPrimaryContainer,
           ),
           const SizedBox(
             width: 4,
           ),
           Text(
             DateFormat.yMMMM('en_US').format(selectedMonthYearFromPicker),
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+            style: theme.textTheme.labelLarge!.copyWith(
+                  color: theme.colorScheme.onPrimaryContainer,
                 ),
           ),
         ],
