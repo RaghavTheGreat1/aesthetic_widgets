@@ -15,12 +15,13 @@ class AppInitializerService {
 
   Future initializeAppPrefs() async {
     final appPreferencesJson = sharedPrefs.getString('appPreferences');
+
     if (appPreferencesJson != null) {
       final appPreferences = AppPreferences.fromJson(appPreferencesJson);
+
       overrides.add(
-        StateNotifierProvider<AppPreferencesProvider, AppPreferences>((ref) {
-          return AppPreferencesProvider(appPreferences);
-        }),
+        appPreferencesProvider
+            .overrideWith((ref) => AppPreferencesProvider(appPreferences)),
       );
     }
   }

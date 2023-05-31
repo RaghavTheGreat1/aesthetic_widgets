@@ -10,6 +10,7 @@
 include: package:flutter_lints/flutter.yaml
 
 linter:
+  
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
   # included above or to enable additional rules. A list of all available lints
@@ -27,3 +28,9 @@ linter:
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+  plugins:
+    - custom_lint

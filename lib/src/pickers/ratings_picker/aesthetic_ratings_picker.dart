@@ -60,6 +60,8 @@ class _AestheticRatingsPickerState extends State<AestheticRatingsPicker> {
                 });
                 widget.onRatingChanged(selectedIndex);
               },
+              fillColor: widget.fillColor,
+              borderColor: widget.borderColor,
             );
           },
           growable: false,
