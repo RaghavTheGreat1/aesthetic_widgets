@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
-class AestheticThemeTabBarPicker extends StatefulWidget {
-  const AestheticThemeTabBarPicker({
+class AestheticThemePickerTabBar extends StatefulWidget {
+  const AestheticThemePickerTabBar({
     Key? key,
     required this.initialThemeMode,
     required this.onChanged,
@@ -23,11 +23,11 @@ class AestheticThemeTabBarPicker extends StatefulWidget {
   final BorderRadiusGeometry? indicatorBorderRadius;
 
   @override
-  State<AestheticThemeTabBarPicker> createState() =>
-      _AestheticThemeTabBarPickerState();
+  State<AestheticThemePickerTabBar> createState() =>
+      _AestheticThemePickerTabBarState();
 }
 
-class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
+class _AestheticThemePickerTabBarState extends State<AestheticThemePickerTabBar>
     with TickerProviderStateMixin {
   late ThemeMode currentThemeMode;
   late TabController controller;
@@ -48,7 +48,7 @@ class _AestheticThemeTabBarPickerState extends State<AestheticThemeTabBarPicker>
   }
 
   @override
-  void didUpdateWidget(covariant AestheticThemeTabBarPicker oldWidget) {
+  void didUpdateWidget(covariant AestheticThemePickerTabBar oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.initialThemeMode != widget.initialThemeMode) {
