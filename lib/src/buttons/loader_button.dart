@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class LoaderButton extends StatefulWidget {
-  const LoaderButton({
+class AestheticLoaderButton extends StatefulWidget {
+  const AestheticLoaderButton({
     Key? key,
     required this.label,
     required this.onPressed,
@@ -22,10 +22,10 @@ class LoaderButton extends StatefulWidget {
   final bool hapticFeedback;
 
   @override
-  State<LoaderButton> createState() => _LoaderButtonState();
+  State<AestheticLoaderButton> createState() => _AestheticLoaderButtonState();
 }
 
-class _LoaderButtonState extends State<LoaderButton> {
+class _AestheticLoaderButtonState extends State<AestheticLoaderButton> {
   ConnectivityResult connectionStatus = ConnectivityResult.wifi;
   final Connectivity connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> connectivitySubscription;
@@ -52,7 +52,7 @@ class _LoaderButtonState extends State<LoaderButton> {
   }
 
   @override
-  void didUpdateWidget(covariant LoaderButton oldWidget) {
+  void didUpdateWidget(covariant AestheticLoaderButton oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.isLoading != widget.isLoading) {
       setState(() {
