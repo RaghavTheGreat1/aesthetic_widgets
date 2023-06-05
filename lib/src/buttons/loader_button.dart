@@ -25,7 +25,7 @@ class AestheticLoaderButton extends StatefulWidget {
   final Size? size;
   final Widget label;
   final bool? isLoading;
-  final void Function()? onPressed;
+  final Function()? onPressed;
   final bool checkConnectivity;
   final bool hapticFeedback;
   final void Function()? onLongPress;
@@ -92,7 +92,7 @@ class _AestheticLoaderButtonState extends State<AestheticLoaderButton> {
     setState(() {
       isLoading = true;
     });
-    widget.onPressed?.call();
+    await widget.onPressed?.call();
     setState(() {
       isLoading = false;
     });
