@@ -42,6 +42,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   WidgetDisplayer(
+                    title: 'Loader Button',
+                    child: AestheticLoaderButton(
+                      label: const Text('PRESS ME'),
+                      onPressed: () async {
+                        await Future.delayed(const Duration(seconds: 5));
+                      },
+                    ),
+                  ),
+                  WidgetDisplayer(
                     title: 'Theme Selector',
                     child: AestheticThemePickerTabBar(
                       initialThemeMode: ref.read(appPreferencesProvider
