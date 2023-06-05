@@ -2,6 +2,8 @@ import 'package:aesthetic_widgets/aesthetic_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../home_screen.dart';
+
 final navigationIndexProvider =
     StateProvider<(int selectedIndex, int hoveredIndex)>((ref) {
   return (0, 0);
@@ -10,9 +12,7 @@ final navigationIndexProvider =
 class AppNavigationRail extends StatefulHookConsumerWidget {
   const AppNavigationRail({
     super.key,
-    required this.scaffoldKey,
   });
-  final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
   ConsumerState<AppNavigationRail> createState() => _AppNavigationRailState();
@@ -22,6 +22,7 @@ class _AppNavigationRailState extends ConsumerState<AppNavigationRail> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final scaffoldKey = ref.read(homeScreenScaffoldKeyProvider);
 
     return AestheticNavigationRail(
       selectedIndex: ref.read(navigationIndexProvider).$1,
@@ -41,10 +42,10 @@ class _AppNavigationRailState extends ConsumerState<AppNavigationRail> {
             .update((state) => (state.$1, index));
       },
       onDestinationEnter: (index, event) {
-        widget.scaffoldKey.currentState?.openDrawer();
+        scaffoldKey.currentState?.openDrawer();
       },
       onDestinationExit: (index, event) {
-        widget.scaffoldKey.currentState?.closeDrawer();
+        scaffoldKey.currentState?.closeDrawer();
       },
       backgroundColor: theme.colorScheme.secondaryContainer,
       destinations: const [
@@ -59,8 +60,4 @@ class _AppNavigationRailState extends ConsumerState<AppNavigationRail> {
       ],
     );
   }
-}
-
-class CustomNavigationRailDestination extends NavigationRailDestination {
-  CustomNavigationRailDestination({required super.icon, required super.label});
 }
