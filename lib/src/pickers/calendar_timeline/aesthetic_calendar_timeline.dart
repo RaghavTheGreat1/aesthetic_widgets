@@ -59,7 +59,9 @@ class _CalendarTimelineState extends State<AestheticCalendarTimeline> {
               builder: (context, ref, _) {
                 return YearSelector(
                   onYearChanged: (year) {
-                    ref.read(calendarTimelineProvider.notifier).updateYear(year);
+                    ref
+                        .read(calendarTimelineProvider.notifier)
+                        .updateYear(year);
                     widget.onDateTimeChanged
                         ?.call(ref.read(calendarTimelineProvider));
                   },
